@@ -2,18 +2,48 @@
   "name": "dx-electron-vue",
   "private": true,
   "version": "0.0.0",
+  "main": "electron/main.js",
   "scripts": {
+    "electron:serve": "concurrently -k \"yarn dev\" \"yarn electron\"",
+    "electron:build": "vue build && electron-builder",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron": "wait-on tcp:3000 && cross-env NODE_ENV=development electron ."
   },
   "dependencies": {
     "vue": "^3.2.25"
   },
+  "build": {
+    "productName":"冠字号",
+    "copyright":"grg",
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist_electron"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "icon": "build/icons/favicon.ico"
+    },
+    "linux": {
+      "icon": "build/icons"
+    }
+  },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
+    "concurrently": "^7.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^19.0.4",
+    "electron-builder": "^23.0.3",
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
-    "vue-tsc": "^0.34.7"
+    "vue-tsc": "^0.34.7",
+    "wait-on": "^6.0.1"
   }
 }
